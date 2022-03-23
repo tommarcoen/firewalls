@@ -1,0 +1,81 @@
+\chapter{Introduction}
+\label{chap:introduction}
+
+In this course we will learn how to configure several different firewalls.
+We will cover the basic configuration for management of the device, configure firewall rules, and set up IPsec VPN tunnels to connect different sites or offices securily together.
+
+
+
+\section{What is a firewall?}
+A firewall is a \emph{network security system} that monitors and controls incoming and outgoing network traffic based on predetermined security rules.
+A firewall typically establishes a barrier between a trusted network and an untrusted network, such as the Internet.
+The device offers a lot more features, however, such as a network address translator (NAT), intrusion prevention system (IPS),VPN concentrator, and more.
+
+A classic firewall is a router, connecting different networks together.
+It can filter traffic based on IP addresses and layer 4 protocols (e.g.\ TCP and UDP).
+Nowadays firewalls can perform deep packet inspection and filter up to the appliction layer.
+These devices are called next-generation firewalls (see page~\pageref{sec:intro-ngfw}).
+
+It is not always convenient to introduce such a firewall into the network.
+As the firewall is a layer~3 hop in the network, it is necessary to introduce a new network and assign new IP addresses to certain devices in order to create an additional hop for the firewall.
+A possible solution is to configure the firewall as ``bump in the wire,'' the firewall interfaces do not get IP addresses and the firewall remains invisible to other devices in the network.
+
+\Vref{fig:simple-lan} depicts a simple network setup with a local area network (203.0.113.0/24) connecting to the Internet via a router.
+The link from the router to the router of the service provides uses addresses from the range 192.0.2.0/29.
+When we introduce a firewall to this setup (see \cref{fig:simple-lan-fw}) we need to add an extra address range (192.0.2.8/29).
+The router needs to be configured with a new IP address on the inside interface.
+
+
+\begin{figure}
+\begin{minipage}[b]{.47\textwidth}
+\input{drawings/simple-lan}
+\caption{A simple setup with a router connecting the local network to the Internet}
+\label{fig:simple-lan}
+\end{minipage}
+\hfill
+\begin{minipage}[b]{.47\textwidth}
+\input{drawings/simple-lan-fw}
+\caption{The same setup as \cref{fig:simple-lan} but after introducing a firewall to the setup}
+\label{fig:simple-lan-fw}
+\end{minipage}
+\end{figure}
+
+
+\section{Next-generation firewalls}
+\label{sec:intro-ngfw}
+
+% https://www.juniper.net/documentation/en_US/learn-about/LA_FIrewallEvolution.pdf
+
+First generation firewalls were relatively simple filter systems called \emph{packet filter firewalls}, but they made today's highly complex security technology for computer networks possible.
+Packet filter firewalls, also referred to as \emph{stateless firewalls}, filtered out and dropped traffic based on filtering rules.
+Packet filter firewalls did not maintain connection state.
+That is, a packet was processed as an atomic unit without regard to related packets.
+Packet filter firewalls were deployed largely on routers and switches.
+
+Typically, packet processing was performed at layers~3 and~4 by matching the header fields of the packet against four tuples: who sent the packet and who was its intended recipient (source and destination IP addresses), the ports (source and destination ports), and the protocol used to transport the traffic (e.g.~TCP and ICMP).
+No higher layer information was taken into account.
+
+The main weakness of packet filter firewalls was that hackers could craft packets to pass through the filters taking advantage of the lack of state.
+When packet filter firewalls were first used, operating system stacks were vulnerable and a single packet could crash the system, an event that rarely occurs today.
+Packet filter firewalls allowed all web-based traffic, including web-based attacks, to pass through the firewall.
+These firewalls could not differentiate between valid return packets and imposter return packets.
+How to handle these and other similar problems set the stage for future firewall development.
+
+Packet filter firewalls were followed not long afterwards by \emph{stateful firewalls}.
+These second generation firewalls has the same capabilities as packet filter firewalls, but they monitored and stored the session and connection state.
+They associated related packets in a flow based on source and destination IP addresses, source and destination ports, and the protocol used.
+If a packet matched this information bi-directionally, then it belonged to the flow.
+
+Stateful firewalls addressed the packet filter firewall problem of not being able to determine if a return packet was from a legitimate connection, but the problem of not being able to differentiate good web traffic from bad remained.
+What was needed were firewall features that could detect and block web attacks, and they followed soon afterward.
+
+
+
+
+\section{Virtual private networks}
+\label{sec:intro-vpn}
+
+
+
+\section{Firewall vendors and features}
+\label{sec:intro-vendors}

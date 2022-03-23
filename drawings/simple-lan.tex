@@ -1,0 +1,23 @@
+\documentclass[tikz]{standalone}
+\input{../pgf/standalone}
+\begin{document}
+\begin{tikzpicture}[framed]
+
+\def\iconset{basic}
+\hidelabels
+
+\nodecloud{Internet}{0,2}{Internet}{}
+\noderouter{router}{0,0}{Gateway}{}
+\connect{Internet}{}{router}{}
+
+\draw[{Square[open]}-{Square[open]},thick] (-1.5,-1.5) -- (1.5,-1.5);
+\draw (router) -- (0,-1.5);
+
+\node at (1.5,.7) {192.0.2.0/29};
+\node at (0,-2) {203.0.113.0/24};
+
+%\showhostnamesinterfaces
+%\connect{switch}{fa0/3}{pc 3}{eth0}
+
+\end{tikzpicture}
+\end{document}
